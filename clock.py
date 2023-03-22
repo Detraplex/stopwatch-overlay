@@ -4,6 +4,7 @@ class App(tk.Frame):
     def __init__(self, master) -> None:
         super().__init__(master)
         self.t_f = True
+        self.__job = None
         self.a = 00
         self.b = 00
         self.c = 00  
@@ -13,11 +14,9 @@ class App(tk.Frame):
         self.sub_time_button = tk.Button(self, text = '-', command = self.sub_time)
         self.starting_button = tk.Button(self, text = 'Start Early', command = self.starting)
         self._ =tk.Label(self, text= " ", font=(15), width=10)
-        self._2 =tk.Label(self, text= " ", font=(15), width=10)
-        self._3 =tk.Label(self, text= " ", font=(15), width=10)
         self.stopwatch_button = tk.Button(self, text = 'StopWatch', command = self.stopwatch)
         self.countdown_button = tk.Button(self, text = 'CountDown', command = self.countdown)
-        self.buttons_and_such = {")":self._2, "_":self._,"timer_face":self.timer_face, "add_time_button":self.add_time_button, "sub_time_button":self.sub_time_button, "starting_button":self.starting_button}
+        self.buttons_and_such = {"_":self._,"timer_face":self.timer_face, "add_time_button":self.add_time_button, "sub_time_button":self.sub_time_button, "starting_button":self.starting_button}
         self.pack()
         self.initalize()
 
@@ -70,26 +69,27 @@ class App(tk.Frame):
     
     def starting(self):
         self.timer_face.configure(text="Have I Started Yet?")
-        self.after(1, self.starting)
+        root.after_cancel(self.__job)
+        self.__job = None
 
     def sub_countdown(self):
-        if (self.__d__() <= 1000) & (self.__d__() != 00):
+        if (self.__d__() <= 1000) & (self.__d__() != 00): #as long as mili doesn equal zero subtract one till it is
             self.__mute_d__(self.__d__(), 1, '-')
             self.timer_face.configure(text="{}:{}:{}:{}".format(self.__a__() ,self.__b__(), self.__c__(), self.__d__()))
-            self.after(1, self.sub_countdown)
-        elif (self.c <= 60) & (self.c != 00):
+            self.__job =self.after(1, self.sub_countdown)
+        elif (self.c <= 60) & (self.c != 00): #if second doesnt equal zero and is less than or equal to 60 then subtract a sec and add 999 mili
                 self.__mute_c__(self.__c__(), 1, '-')
                 self.__mute_d__(self.__d__(), 999, '+')
                 self.timer_face.configure(text="{}:{}:{}:{}".format(self.__a__() ,self.__b__(), self.__c__(), self.__d__()))
-                self.after(1, self.sub_countdown)
-        elif (self.__b__() <= 60) & (self.__b__() != 00):
+                self.__job =self.after(1, self.sub_countdown)
+        elif (self.__b__() <= 60) & (self.__b__() != 00): #if minute is not zero and less than or equal to 60 than subtract min,sec and add one 999 mili
                 self.__mute_b__(self.__b__(), 1, '-')
                 self.__mute_c__(self.__c__(), 60, '+')
                 self.__mute_c__(self.__c__(), 1, '-')
                 self.__mute_d__(self.__d__(), 999, '+')
                 self.timer_face.configure(text="{}:{}:{}:{}".format(self.__a__() ,self.__b__(), self.__c__(), self.__d__()))
-                self.after(1, self.sub_countdown)
-        elif (self.__a__() <= 24) & (self.__a__() != 00):
+                self.__job =self.after(1, self.sub_countdown)
+        elif (self.__a__() <= 24) & (self.__a__() != 00): #if the hour is smaller than 24 and doesn equal zero then subtract min, sec, hour by one and add 999 to mili
                 self.__mute_a__(self.__a__(), 1, '-')
                 self.__mute_b__(self.__b__(), 60, '+')
                 self.__mute_b__(self.__b__(), 1, '-')
@@ -97,10 +97,10 @@ class App(tk.Frame):
                 self.__mute_c__(self.__c__(), 1, '-')
                 self.__mute_d__(self.__d__(), 999, '+')
                 self.timer_face.configure(text="{}:{}:{}:{}".format(self.__a__() ,self.__b__(), self.__c__(), self.__d__()))
-                self.after(1, self.sub_countdown)
+                self.__job = self.after(1, self.sub_countdown)
         else:
                 self.timer_face.configure(text="Have I Started Yet?")
-                self.after(0, self.initalize)
+                self.__job = self.after(0, self.initalize)
     
     def countdown(self):
         if self.t_f == True:
@@ -122,13 +122,13 @@ class App(tk.Frame):
                    pp = pp + 1
             self.t_f = False
             self.timer_face.configure(text="{}:{}:{}:{}".format(self.__a__() ,self.__b__(), self.__c__(), self.__d__()))
-            self.after(0, self.sub_countdown)
+            self.__job = self.after(0, self.sub_countdown)
     
     def stopwatch(self):
         try:
             self.timer()
         except:
-            self.after(0, self.initalize)
+            self.__job = self.after(0, self.initalize)
     
     def timer(self):
         try:
@@ -149,9 +149,9 @@ class App(tk.Frame):
             else:
                 self.__mute_d__(self.__d__(), 1, '+')
             self.timer_face.configure(text="{}:{}:{}:{}".format(self.a ,self.b, self.c, self.d))
-            self.after(1, self.timer)
+            self.__job = self.after(1, self.timer)
         except:
-            self.after(0, self.initalize)
+            self.__job = self.after(0, self.initalize)
     
     def initalize(self):
         self._.grid(row = 0, column = 0)
@@ -159,8 +159,8 @@ class App(tk.Frame):
         self.sub_time_button.grid(row = 1, column = 2)
         self.starting_button.grid(row = 1, column = 1)
         self.timer_face.grid(row = 0, column = 1)
-        self._2.grid(row = 0, column = 2)
-        self._3.grid(row = 2, column = 1)
+        self._.grid(row = 0, column = 2)
+        self._.grid(row = 2, column = 1)
         self.stopwatch_button.grid(row = 2, column = 0)
         self.countdown_button.grid(row = 2, column = 2)
 
