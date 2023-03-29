@@ -5,4 +5,4 @@ when using OBS or Streamlabs add a window capture, change the window match prior
 # The Future
 So far we do not have a dependencies file and automatic installer, I am looking at adding a more robust GUI, or a double window app, honestly not to sure right now. If you do not have Tkinter installed that will be an automatic issue (but it's a built in lib so it should be fine, if not thats a bigger issue). 
 # BUGS
-If you CTRL + c the file it wont close untill you go back to the window(its weird, I dunno),
+If you CTRL + c the file it wont close untill you go back to the window(its weird, I dunno), besides this, no known bugs however i havent fully tested it so i honestly have no real idea...
