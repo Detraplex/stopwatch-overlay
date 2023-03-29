@@ -5,4 +5,4 @@ when using OBS or Streamlabs add a window capture, change the window match prior
 # The Future
 So far we do not have a dependencies file and automatic installer, I am looking at adding a more robust GUI, or a double window app, honestly not to sure right now. If you do not have Tkinter installed that will be an automatic issue (but it's a built in lib so it should be fine, if not thats a bigger issue). 
 # BUGS
-It also opens up a command promt and it will break if the time isn't formatted correctly when using the timer function -> 00:00:00:0000. When hitting start early, if you want to switch back, the only way to do so is to restart the program, if you do hit stopwatch, it will start counting up from when you hit start early, and will not do anything when hitting countdown. If you CTRL + c the file it wont close untill you go back to the window(its weird, I dunno),
+If you CTRL + c the file it wont close untill you go back to the window(its weird, I dunno),

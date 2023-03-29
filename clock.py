@@ -90,9 +90,23 @@ class App(tk.Frame):
         self.__mute_b__(self.__b__(), 1, '-')
         self.after(0, self.sub_countdown)
     
+    def test_neg(self, hour_input: str, minute_input: str, second_input: str, milisecond_input: str) -> bool:
+        list_of_stuff = [hour_input, minute_input, second_input, milisecond_input]
+        for i in list_of_stuff:
+            for j in i:
+                if j == '-':
+                    return False
+                else:
+                    continue
+        return True
+
     def starting(self):
         """starts the timer early"""
         self.timer_face.configure(text="Have I Started Yet?")
+        self.__mute_a__(self.__a__(), self.__a__(), '-')
+        self.__mute_b__(self.__b__(), self.__b__(), '-')
+        self.__mute_c__(self.__c__(), self.__c__(), '-')
+        self.__mute_d__(self.__d__(), self.__d__(), '-')
         root.after_cancel(self.__job)
         self.__job = None
 
@@ -127,38 +141,70 @@ class App(tk.Frame):
                 self.timer_face.configure(text="Have I Started Yet?")
                 self.__job = self.after(0, self.initalize)
     
+    def time_reformatter(self) -> str:
+        """fix for the formatting bug, badly but it works (if statmetns will eb fixed later)"""
+        print("put time in now, either two didgets or one where a zero starts the number (ex: 01 for 1)")
+        hour_input = input('hour: ')
+        minute_input = input('minute: ')
+        second_input = input('second: ')
+        milisecond_input = input('milisecond: ')
+        if (len(hour_input) > 2) or (len(minute_input) > 2) or (len(second_input) > 2) or (len(milisecond_input) > 4):
+            return None
+        elif self.test_neg(hour_input, minute_input, second_input, milisecond_input) == False:
+            return None
+        elif (hour_input[0].isdigit() == False) or (hour_input[1].isdigit() == False):
+            return None
+        elif (hour_input[0] == '2') and (hour_input[1] not in ['0', '1', '2', '3', '4']):
+            return None
+        elif (minute_input[0].isdigit() == False) or (minute_input[1].isdigit() == False):
+            return None
+        elif (second_input[0].isdigit() == False) or (second_input[1].isdigit() == False):
+            return None
+        elif (milisecond_input[0].isdigit() == False) or (milisecond_input[1].isdigit() == False) or (milisecond_input[2].isdigit() == False) or (milisecond_input[3].isdigit() == False):
+            return None
+        else:   
+            return hour_input,minute_input,second_input,milisecond_input
+
+
     def countdown(self):
         """initalizes the countdown"""
+        self.__job = None
+        self.t_f = True
         if self.t_f == True:
-            time_input = input("put time in now:")
-            time_input = time_input.split(":")
-            pp = 0
-            for i in time_input:
-                if pp == 0:
-                    self.__mute_a__(int(i), 0 , '-')
-                    pp = pp + 1
-                elif pp == 1:
-                    self.__mute_b__(int(i), 0, '-')
-                    pp = pp + 1
-                elif pp == 2:
-                   self.__mute_c__(int(i), 0, '-')
-                   pp = pp + 1
-                elif pp == 3:
-                   self.__mute_d__(int(i), 0 ,'-')
-                   pp = pp + 1
-            self.t_f = False
-            self.timer_face.configure(text="{}:{}:{}:{}".format(self.__a__() ,self.__b__(), self.__c__(), self.__d__()))
-            self.__job = self.after(0, self.sub_countdown)
+            time_input = self.time_reformatter()
+            if time_input == None:
+                self.__job = None
+                print('use an int porfavor')
+            else:
+                pp = 0
+                for i in time_input:
+                    if pp == 0:
+                        self.__mute_a__(int(i), 0 , '-')
+                        pp = pp + 1
+                    elif pp == 1:
+                        self.__mute_b__(int(i), 0, '-')
+                        pp = pp + 1
+                    elif pp == 2:
+                       self.__mute_c__(int(i), 0, '-')
+                       pp = pp + 1
+                    elif pp == 3:
+                       self.__mute_d__(int(i), 0 ,'-')
+                       pp = pp + 1
+                self.t_f = False
+                self.timer_face.configure(text="{}:{}:{}:{}".format(self.__a__() ,self.__b__(), self.__c__(), self.__d__()))
+                self.__job = self.after(0, self.sub_countdown)
     
     def stopwatch(self):
         """initalizes the stopwatch"""
+        self.__job = None
         try:
             self.timer()
         except:
             self.__job = self.after(0, self.initalize)
     
     def timer(self):
-        """starts gounting up from 00:00:00:0000"""
+        """starts counting up from 00:00:00:0000"""
+        self.__job = None
         try:
             if self.__d__() == 1000:
                 self.__mute_d__(0000, 0, '-')
