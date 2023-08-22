@@ -141,14 +141,20 @@ class App(tk.Frame):
                 self.timer_face.configure(text="Have I Started Yet?")
                 self.__job = self.after(0, self.initalize)
     
+    def test_exist(self, hour_input, minute_input, second_input, milisecond_input) -> bool:
+        if (hour_input == '') or (minute_input == '') or (second_input == '') or (milisecond_input == ''):
+            return False
+        else:
+            return True
+    
     def time_reformatter(self) -> str:
-        """fix for the formatting bug, badly but it works (if statmetns will eb fixed later)"""
+        """fix for the formatting bug, badly but it works (if statements will be fixed later)"""
         print("put time in now, either two didgets or one where a zero starts the number (ex: 01 for 1)")
         hour_input = input('hour: ')
         minute_input = input('minute: ')
         second_input = input('second: ')
         milisecond_input = input('milisecond: ')
-        if (len(hour_input) > 2) or (len(minute_input) > 2) or (len(second_input) > 2) or (len(milisecond_input) > 4):
+        if (len(hour_input) > 2) or (len(minute_input) > 2) or (len(second_input) > 2) or (len(milisecond_input) > 4) or (self.test_exist(hour_input, minute_input, second_input, milisecond_input) != True):
             return None
         elif self.test_neg(hour_input, minute_input, second_input, milisecond_input) == False:
             return None
@@ -160,11 +166,10 @@ class App(tk.Frame):
             return None
         elif (second_input[0].isdigit() == False) or (second_input[1].isdigit() == False):
             return None
-        elif (milisecond_input[0].isdigit() == False) or (milisecond_input[1].isdigit() == False) or (milisecond_input[2].isdigit() == False) or (milisecond_input[3].isdigit() == False):
+        elif (milisecond_input[0].isdigit() == False) or (milisecond_input[1] not in ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']):
             return None
         else:   
             return hour_input,minute_input,second_input,milisecond_input
-
 
     def countdown(self):
         """initalizes the countdown"""
@@ -174,7 +179,7 @@ class App(tk.Frame):
             time_input = self.time_reformatter()
             if time_input == None:
                 self.__job = None
-                print('use an int porfavor')
+                print('use an int please')
             else:
                 pp = 0
                 for i in time_input:
@@ -238,7 +243,6 @@ class App(tk.Frame):
         self._.grid(row = 2, column = 1)
         self.stopwatch_button.grid(row = 2, column = 0)
         self.countdown_button.grid(row = 2, column = 2)
-
 
 root = tk.Tk()
 myapp = App(root)
