@@ -21,58 +21,97 @@ class App(tk.Frame):
         self.initalize()
 
     def __a__(self) -> int:
+        """returns hours"""
         return self.a
     
     def __b__(self) -> int:
+        """returns minutes"""
         return self.b
     
     def __c__(self) -> int:
+        """returns seconds"""
         return self.c
     
     def __d__(self) -> int:
+        """returns miliseconds"""
         return self.d
     
     def __mute_a__(self, num: int, sub_plus: int, op) -> int:
+        """returns add/sub of hours:
+        num: self.a
+        sub_plus: "+", "-"
+        """
         if op == '-':
             self.a = num - sub_plus
         elif op == '+':
             self.a = num + sub_plus
 
     def __mute_b__(self, num: int, sub_plus: int, op) -> int:
+        """returns add/sub of minutes:
+        num: self.s
+        sub_plus: "+", "-"
+        """
         if op == '-':
             self.b = num - sub_plus
         elif op == '+':
             self.b = num + sub_plus
 
     def __mute_c__(self, num: int, sub_plus: int, op) -> int:
+        """returns add/sub of seconds:
+        num: self.c
+        sub_plus: "+", "-"
+        """
         if op == '-':
             self.c = num - sub_plus
         elif op == '+':
             self.c = num + sub_plus
 
     def __mute_d__(self, num: int, sub_plus: int, op) -> int:
+        """returns add/sub of miliseconds:
+        num: self.d
+        sub_plus: "+", "-"
+        """
         if op == '-':
             self.d = num - sub_plus
         elif op == '+':
             self.d = num + sub_plus
 
-    def __list_vals__(self) -> list:
-        return self.penis
+    def __list_vals__(self) -> dict:
+        """returns the list of key, tkinter button pairs"""
+        return self.buttons_and_such
 
     def add_time(self):
+        """adds a minute to the current time"""
         self.__mute_b__(self.__b__(), 1, '+')
         self.after(0, self.sub_countdown)
         
     def sub_time(self):
+        """subtracts a minute from the current time"""
         self.__mute_b__(self.__b__(), 1, '-')
         self.after(0, self.sub_countdown)
     
+    def test_neg(self, hour_input: str, minute_input: str, second_input: str, milisecond_input: str) -> bool:
+        list_of_stuff = [hour_input, minute_input, second_input, milisecond_input]
+        for i in list_of_stuff:
+            for j in i:
+                if j == '-':
+                    return False
+                else:
+                    continue
+        return True
+
     def starting(self):
+        """starts the timer early"""
         self.timer_face.configure(text="Have I Started Yet?")
+        self.__mute_a__(self.__a__(), self.__a__(), '-')
+        self.__mute_b__(self.__b__(), self.__b__(), '-')
+        self.__mute_c__(self.__c__(), self.__c__(), '-')
+        self.__mute_d__(self.__d__(), self.__d__(), '-')
         root.after_cancel(self.__job)
         self.__job = None
 
     def sub_countdown(self):
+        """starts counting down from an inputed time"""
         if (self.__d__() <= 1000) & (self.__d__() != 00): #as long as mili doesn equal zero subtract one till it is
             self.__mute_d__(self.__d__(), 1, '-')
             self.timer_face.configure(text="{}:{}:{}:{}".format(self.__a__() ,self.__b__(), self.__c__(), self.__d__()))
@@ -102,35 +141,75 @@ class App(tk.Frame):
                 self.timer_face.configure(text="Have I Started Yet?")
                 self.__job = self.after(0, self.initalize)
     
+    def test_exist(self, hour_input, minute_input, second_input, milisecond_input) -> bool:
+        if (hour_input == '') or (minute_input == '') or (second_input == '') or (milisecond_input == ''):
+            return False
+        else:
+            return True
+    
+    def time_reformatter(self) -> str:
+        """fix for the formatting bug, badly but it works (if statements will be fixed later)"""
+        print("put time in now, either two didgets or one where a zero starts the number (ex: 01 for 1)")
+        hour_input = input('hour: ')
+        minute_input = input('minute: ')
+        second_input = input('second: ')
+        milisecond_input = input('milisecond: ')
+        if (len(hour_input) > 2) or (len(minute_input) > 2) or (len(second_input) > 2) or (len(milisecond_input) > 4) or (self.test_exist(hour_input, minute_input, second_input, milisecond_input) != True):
+            return None
+        elif self.test_neg(hour_input, minute_input, second_input, milisecond_input) == False:
+            return None
+        elif (hour_input[0].isdigit() == False) or (hour_input[1].isdigit() == False):
+            return None
+        elif (hour_input[0] == '2') and (hour_input[1] not in ['0', '1', '2', '3', '4']):
+            return None
+        elif (minute_input[0].isdigit() == False) or (minute_input[1].isdigit() == False):
+            return None
+        elif (second_input[0].isdigit() == False) or (second_input[1].isdigit() == False):
+            return None
+        elif (milisecond_input[0].isdigit() == False) or (milisecond_input[1] not in ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']):
+            return None
+        else:   
+            return hour_input,minute_input,second_input,milisecond_input
+
     def countdown(self):
+        """initalizes the countdown"""
+        self.__job = None
+        self.t_f = True
         if self.t_f == True:
-            pissmaster = input("put time in now:")
-            pissmaster = pissmaster.split(":")
-            pp = 0
-            for i in pissmaster:
-                if pp == 0:
-                    self.__mute_a__(int(i), 0 , '-')
-                    pp = pp + 1
-                elif pp == 1:
-                    self.__mute_b__(int(i), 0, '-')
-                    pp = pp + 1
-                elif pp == 2:
-                   self.__mute_c__(int(i), 0, '-')
-                   pp = pp + 1
-                elif pp == 3:
-                   self.__mute_d__(int(i), 0 ,'-')
-                   pp = pp + 1
-            self.t_f = False
-            self.timer_face.configure(text="{}:{}:{}:{}".format(self.__a__() ,self.__b__(), self.__c__(), self.__d__()))
-            self.__job = self.after(0, self.sub_countdown)
+            time_input = self.time_reformatter()
+            if time_input == None:
+                self.__job = None
+                print('use an int please')
+            else:
+                pp = 0
+                for i in time_input:
+                    if pp == 0:
+                        self.__mute_a__(int(i), 0 , '-')
+                        pp = pp + 1
+                    elif pp == 1:
+                        self.__mute_b__(int(i), 0, '-')
+                        pp = pp + 1
+                    elif pp == 2:
+                       self.__mute_c__(int(i), 0, '-')
+                       pp = pp + 1
+                    elif pp == 3:
+                       self.__mute_d__(int(i), 0 ,'-')
+                       pp = pp + 1
+                self.t_f = False
+                self.timer_face.configure(text="{}:{}:{}:{}".format(self.__a__() ,self.__b__(), self.__c__(), self.__d__()))
+                self.__job = self.after(0, self.sub_countdown)
     
     def stopwatch(self):
+        """initalizes the stopwatch"""
+        self.__job = None
         try:
             self.timer()
         except:
             self.__job = self.after(0, self.initalize)
     
     def timer(self):
+        """starts counting up from 00:00:00:0000"""
+        self.__job = None
         try:
             if self.__d__() == 1000:
                 self.__mute_d__(0000, 0, '-')
@@ -154,6 +233,7 @@ class App(tk.Frame):
             self.__job = self.after(0, self.initalize)
     
     def initalize(self):
+        """formats where the buttins and time go"""
         self._.grid(row = 0, column = 0)
         self.add_time_button.grid(row = 1, column = 0)
         self.sub_time_button.grid(row = 1, column = 2)
@@ -163,7 +243,6 @@ class App(tk.Frame):
         self._.grid(row = 2, column = 1)
         self.stopwatch_button.grid(row = 2, column = 0)
         self.countdown_button.grid(row = 2, column = 2)
-
 
 root = tk.Tk()
 myapp = App(root)
