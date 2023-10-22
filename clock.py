@@ -1,4 +1,5 @@
 import tkinter as tk
+from playsound import playsound
 
 class App(tk.Frame):
     def __init__(self, master) -> None:
@@ -100,6 +101,10 @@ class App(tk.Frame):
                     continue
         return True
 
+    def play(self):
+        """plays ending sound for timer"""
+        playsound('./sound_files/alarm-clock-short-6402.mp3')
+
     def starting(self):
         """starts the timer early"""
         self.timer_face.configure(text="Have I Started Yet?")
@@ -140,6 +145,7 @@ class App(tk.Frame):
         else:
                 self.timer_face.configure(text="Have I Started Yet?")
                 self.__job = self.after(0, self.initalize)
+                self.play()
     
     def test_exist(self, hour_input, minute_input, second_input, milisecond_input) -> bool:
         if (hour_input == '') or (minute_input == '') or (second_input == '') or (milisecond_input == ''):
