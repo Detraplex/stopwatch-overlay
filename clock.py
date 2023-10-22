@@ -23,29 +23,21 @@ class App(tk.Frame):
 
     def __a__(self) -> int:
         """returns hours"""
-        """returns hours"""
         return self.a
     
     def __b__(self) -> int:
-        """returns minutes"""
         """returns minutes"""
         return self.b
     
     def __c__(self) -> int:
         """returns seconds"""
-        """returns seconds"""
         return self.c
     
     def __d__(self) -> int:
         """returns miliseconds"""
-        """returns miliseconds"""
         return self.d
     
     def __mute_a__(self, num: int, sub_plus: int, op) -> int:
-        """returns add/sub of hours:
-        num: self.a
-        sub_plus: "+", "-"
-        """
         """returns add/sub of hours:
         num: self.a
         sub_plus: "+", "-"
@@ -60,20 +52,12 @@ class App(tk.Frame):
         num: self.s
         sub_plus: "+", "-"
         """
-        """returns add/sub of minutes:
-        num: self.s
-        sub_plus: "+", "-"
-        """
         if op == '-':
             self.b = num - sub_plus
         elif op == '+':
             self.b = num + sub_plus
 
     def __mute_c__(self, num: int, sub_plus: int, op) -> int:
-        """returns add/sub of seconds:
-        num: self.c
-        sub_plus: "+", "-"
-        """
         """returns add/sub of seconds:
         num: self.c
         sub_plus: "+", "-"
@@ -88,10 +72,6 @@ class App(tk.Frame):
         num: self.d
         sub_plus: "+", "-"
         """
-        """returns add/sub of miliseconds:
-        num: self.d
-        sub_plus: "+", "-"
-        """
         if op == '-':
             self.d = num - sub_plus
         elif op == '+':
@@ -100,18 +80,13 @@ class App(tk.Frame):
     def __list_vals__(self) -> dict:
         """returns the list of key, tkinter button pairs"""
         return self.buttons_and_such
-    def __list_vals__(self) -> dict:
-        """returns the list of key, tkinter button pairs"""
-        return self.buttons_and_such
 
     def add_time(self):
-        """adds a minute to the current time"""
         """adds a minute to the current time"""
         self.__mute_b__(self.__b__(), 1, '+')
         self.after(0, self.sub_countdown)
         
     def sub_time(self):
-        """subtracts a minute from the current time"""
         """subtracts a minute from the current time"""
         self.__mute_b__(self.__b__(), 1, '-')
         self.after(0, self.sub_countdown)
@@ -132,7 +107,6 @@ class App(tk.Frame):
 
     def starting(self):
         """starts the timer early"""
-        """starts the timer early"""
         self.timer_face.configure(text="Have I Started Yet?")
         self.__mute_a__(self.__a__(), self.__a__(), '-')
         self.__mute_b__(self.__b__(), self.__b__(), '-')
@@ -146,7 +120,6 @@ class App(tk.Frame):
         self.__job = None
 
     def sub_countdown(self):
-        """starts counting down from an inputed time"""
         """starts counting down from an inputed time"""
         if (self.__d__() <= 1000) & (self.__d__() != 00): #as long as mili doesn equal zero subtract one till it is
             self.__mute_d__(self.__d__(), 1, '-')
@@ -212,9 +185,6 @@ class App(tk.Frame):
         """initalizes the countdown"""
         self.__job = None
         self.t_f = True
-        """initalizes the countdown"""
-        self.__job = None
-        self.t_f = True
         if self.t_f == True:
             time_input = self.time_reformatter()
             if time_input == None:
@@ -242,16 +212,12 @@ class App(tk.Frame):
     def stopwatch(self):
         """initalizes the stopwatch"""
         self.__job = None
-        """initalizes the stopwatch"""
-        self.__job = None
         try:
             self.timer()
         except:
             self.__job = self.after(0, self.initalize)
     
     def timer(self):
-        """starts counting up from 00:00:00:0000"""
-        self.__job = None
         """starts counting up from 00:00:00:0000"""
         self.__job = None
         try:
@@ -277,7 +243,6 @@ class App(tk.Frame):
             self.__job = self.after(0, self.initalize)
     
     def initalize(self):
-        """formats where the buttins and time go"""
         """formats where the buttins and time go"""
         self._.grid(row = 0, column = 0)
         self.add_time_button.grid(row = 1, column = 0)
