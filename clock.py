@@ -243,7 +243,7 @@ class App(tk.Frame):
             self.__job = self.after(0, self.initalize)
     
     def initalize(self):
-        """formats where the buttins and time go"""
+        """formats where the buttons and time go"""
         self._.grid(row = 0, column = 0)
         self.add_time_button.grid(row = 1, column = 0)
         self.sub_time_button.grid(row = 1, column = 2)
