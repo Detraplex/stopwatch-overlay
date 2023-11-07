@@ -1,5 +1,5 @@
 # ignore all test c files
 test_files/
-test_file_linux/
+test_files_linux/
 .vscode/
 __pycache__/
