@@ -1,1 +1,0 @@
-self._ =tk.Label(self, text= " ", font=(15), width=10)
