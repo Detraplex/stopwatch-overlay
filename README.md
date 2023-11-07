@@ -12,8 +12,8 @@ So far we do not have a desktop app, I am looking at adding a more robust GUI(in
 on linux if youre having issues use __sudo apt install python3-tk__
 
 # Dev & support
-Detrapelx
-RageRatz
-Moses
-OG Bemper
-Grok
+Detraplex  
+RageRatz  
+Moses  
+OG Bemper  
+Grok  
