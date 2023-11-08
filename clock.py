@@ -1,5 +1,7 @@
 """
 stopwatch and integrated timer
+Detraplex
+labeled for free, individual use
 """
 
 import tkinter as tk
@@ -7,10 +9,8 @@ from playsound import playsound
 
 
 class App(tk.Frame):
-    def __init__(self, master, main_root, main_app) -> None:
+    def __init__(self, master) -> None:
         super().__init__(master)
-        self.main_app = main_app
-        self.main_root = main_root
         self.t_f = True
         self.__job = None
         self.a = 00
@@ -113,7 +113,7 @@ class App(tk.Frame):
         """plays ending sound for timer"""
         playsound('./sound_files/alarm-clock-short-6402.mp3')
 
-    def starting(self):
+    def starting(self, root):
         """starts the timer early"""
         self.timer_face.configure(text="Have I Started Yet?")
         self.__mute_a__(self.__a__(), self.__a__(), '-')
@@ -124,7 +124,6 @@ class App(tk.Frame):
         self.__mute_b__(self.__b__(), self.__b__(), '-')
         self.__mute_c__(self.__c__(), self.__c__(), '-')
         self.__mute_d__(self.__d__(), self.__d__(), '-')
-        root = self.main_root
         root.after_cancel(self.__job)
         self.__job = None
 
@@ -265,10 +264,3 @@ class App(tk.Frame):
         self.quit_button.grid(row = 2, column = 1)
         self.stopwatch_button.grid(row = 2, column = 0)
         self.countdown_button.grid(row = 2, column = 2)
-    
-    def recive_times(self, h,m,s,ms):
-        self.a = h
-        self.b = m
-        self.c = s
-        self.d = ms
-        self.countdown()
