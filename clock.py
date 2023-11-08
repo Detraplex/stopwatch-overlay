@@ -1,11 +1,10 @@
 """
 stopwatch and integrated timer
-Detraplex
-labeled for free, individual use
 """
 
 import tkinter as tk
 from playsound import playsound
+import main
 
 
 class App(tk.Frame):
@@ -20,7 +19,7 @@ class App(tk.Frame):
         self.timer_face = tk.Label(self, text = '00:00:00:0000', font=(15), width=15)
         self.add_time_button = tk.Button(self, text = '+', command = self.add_time)
         self.sub_time_button = tk.Button(self, text = '-', command = self.sub_time)
-        self.starting_button = tk.Button(self, text = 'Start Early', command = self.starting)
+        self.starting_button = tk.Button(self, text = 'Start Early', command = lambda: self.starting(root)
         self.quit_button = tk.Button(self, text = "Quit", command = self.close_window)
         self._ = tk.Label(self, text= " ", font=(15), width=10)
         self.stopwatch_button = tk.Button(self, text = 'StopWatch', command = self.stopwatch)

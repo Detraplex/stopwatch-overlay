@@ -1,7 +1,5 @@
 """
 main handler of the clock module for settings and clock module
-Detraplex
-labeled for free, individual use
 """
 
 import tkinter as tk
@@ -22,6 +20,7 @@ class Main:
     def __init__(self) -> None:
         """Setup and deploy for the whole clock application"""
         self.name = [self.generate_main, self.generate_settings]
+        self.main_root = 
         self.main()
 
     def thread_function(self):
@@ -48,14 +47,19 @@ class Main:
         settings_root.mainloop()
         logger.info("Generate settings      : Done")
 
-    def generate_main(self):
+    def generate_main(self, main_root):
         logger.info("Generate Main      : Initalize")
         main_root = tk.Tk()
         main_root.title("Clock Overlay")
         main_root.geometry('300x300')
-        my_app = clock.App(main_root)
+        self.generate_root(main_root)
         main_root.mainloop()
         logger.info("Generate Main      : Done")
+
+    def generate_root(self, main_root):
+        my_app = clock.App(main_root)
+        return main_root
+
 
     def main(self):
         logger.info("Main Start     : Initalize")

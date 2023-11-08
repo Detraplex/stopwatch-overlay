@@ -1,7 +1,5 @@
 """
 Settings of the clock module
-Detraplex
-labeled for free, individual use
 """
 
 import tkinter as tk
