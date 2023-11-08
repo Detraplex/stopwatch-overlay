@@ -7,8 +7,9 @@ from playsound import playsound
 
 
 class App(tk.Frame):
-    def __init__(self, master, main_root) -> None:
+    def __init__(self, master, main_root, main_app) -> None:
         super().__init__(master)
+        self.main_app = main_app
         self.main_root = main_root
         self.t_f = True
         self.__job = None
@@ -264,3 +265,10 @@ class App(tk.Frame):
         self.quit_button.grid(row = 2, column = 1)
         self.stopwatch_button.grid(row = 2, column = 0)
         self.countdown_button.grid(row = 2, column = 2)
+    
+    def recive_times(self, h,m,s,ms):
+        self.a = h
+        self.b = m
+        self.c = s
+        self.d = ms
+        self.countdown()

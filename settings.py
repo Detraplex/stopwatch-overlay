@@ -12,10 +12,11 @@ import main
 
 
 class App(tk.Frame):
-    def __init__(self, master) -> None:
+    def __init__(self, master, main_app) -> None:
         super().__init__(master)
+        self.main_app = main_app
         self.quitButton = tk.Button(self, text = 'Quit', command = self.close_windows)
-        self.enter_button = tk.Button(self, text = "Enter", command=self.get_entry_h)
+        self.enter_button = tk.Button(self, text = "Enter", command=self.send_times)
         self.entry_hour = tk.Entry(self)
         self.entry_minute = tk.Entry(self)
         self.entry_second = tk.Entry(self)
@@ -54,4 +55,5 @@ class App(tk.Frame):
         m = self.get_entry_m()
         s = self.get_entry_s()
         ms = self.get_entry_ms()
+        self.main_app.send_times(self.main_app, h,m,s,ms)
 
