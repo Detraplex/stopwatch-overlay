@@ -34,32 +34,34 @@ class Main:
 
         for i, thread in enumerate(threads):
             logger.info("Main      : before joining thread %d", i)
-            time.sleep(.1)
+            time.sleep(.2)
             thread.join()
             logger.info("Main      : Thread %d done", i)
-
-
-    def generate_settings(self):
-        logger.info("Generate Settings      : Initalize")
-        settings_root = tk.Tk()
-        settings_root.title("Clock Settings")
-        settings_root.geometry('300x300')
-        my_app = settings.App(settings_root)
-        settings_root.mainloop()
-        logger.info("Generate settings      : Done")
 
     def generate_main(self):
         logger.info("Generate Main      : Initalize")
         main_root = tk.Tk()
         main_root.title("Clock Overlay")
-        main_root.geometry('300x300')
-        my_app = clock.App(main_root)
+        #main_root.geometry('300x300')
+        my_app = clock.App(main_root, main_root)
         main_root.mainloop()
         logger.info("Generate Main      : Done")
+
+    def generate_settings(self):
+        logger.info("Generate Settings      : Initalize")
+        settings_root = tk.Tk()
+        settings_root.title("Clock Settings")
+        #settings_root.geometry('300x300')
+        my_app = settings.App(settings_root)
+        settings_root.mainloop()
+        logger.info("Generate settings      : Done")
 
     def main(self):
         logger.info("Main Start     : Initalize")
         self.thread_function()
 
+    def send_times(self):
+        print("piss")
+        
 if __name__ == "__main__":
     Main()
