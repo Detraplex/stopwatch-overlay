@@ -20,7 +20,6 @@ class Main:
     def __init__(self) -> None:
         """Setup and deploy for the whole clock application"""
         self.name = [self.generate_main, self.generate_settings]
-        self.main_root = 
         self.main()
 
     def thread_function(self):
@@ -31,39 +30,41 @@ class Main:
             threads.append(stich)
             stich.start()
 
+            time.sleep(.5)
+
         for i, thread in enumerate(threads):
             logger.info("Main      : before joining thread %d", i)
-            time.sleep(.1)
             thread.join()
             logger.info("Main      : Thread %d done", i)
 
+    def generate_main(self):
+        logger.info("Generate Main      : Initalize")
+        main_root = tk.Tk()
+        main_root.title("Clock Overlay")
+        #main_root.geometry('300x300')
+        self.my_app_m = clock.App(main_root, main_root)
+        main_root.mainloop()
+        logger.info("Generate Main      : Done")
 
     def generate_settings(self):
         logger.info("Generate Settings      : Initalize")
         settings_root = tk.Tk()
         settings_root.title("Clock Settings")
-        settings_root.geometry('300x300')
-        my_app = settings.App(settings_root)
+        #settings_root.geometry('300x300')
+        self.my_app_s = settings.App(settings_root)
         settings_root.mainloop()
         logger.info("Generate settings      : Done")
 
-    def generate_main(self, main_root):
-        logger.info("Generate Main      : Initalize")
-        main_root = tk.Tk()
-        main_root.title("Clock Overlay")
-        main_root.geometry('300x300')
-        self.generate_root(main_root)
-        main_root.mainloop()
-        logger.info("Generate Main      : Done")
-
-    def generate_root(self, main_root):
-        my_app = clock.App(main_root)
-        return main_root
-
+    def send_times(self, times: list):
+        print("piss")
+        
 
     def main(self):
         logger.info("Main Start     : Initalize")
         self.thread_function()
 
+    def send_times(self):
+        print("piss")
+        
 if __name__ == "__main__":
     Main()

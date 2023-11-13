@@ -8,8 +8,9 @@ import main
 
 
 class App(tk.Frame):
-    def __init__(self, master) -> None:
+    def __init__(self, master, main_root) -> None:
         super().__init__(master)
+        self.main_root = main_root
         self.t_f = True
         self.__job = None
         self.a = 00
@@ -19,7 +20,7 @@ class App(tk.Frame):
         self.timer_face = tk.Label(self, text = '00:00:00:0000', font=(15), width=15)
         self.add_time_button = tk.Button(self, text = '+', command = self.add_time)
         self.sub_time_button = tk.Button(self, text = '-', command = self.sub_time)
-        self.starting_button = tk.Button(self, text = 'Start Early', command = lambda: self.starting(root)
+        self.starting_button = tk.Button(self, text = 'Start Early', command = lambda: self.starting(main_root))
         self.quit_button = tk.Button(self, text = "Quit", command = self.close_window)
         self._ = tk.Label(self, text= " ", font=(15), width=10)
         self.stopwatch_button = tk.Button(self, text = 'StopWatch', command = self.stopwatch)
@@ -112,7 +113,7 @@ class App(tk.Frame):
         """plays ending sound for timer"""
         playsound('./sound_files/alarm-clock-short-6402.mp3')
 
-    def starting(self, root):
+    def starting(self):
         """starts the timer early"""
         self.timer_face.configure(text="Have I Started Yet?")
         self.__mute_a__(self.__a__(), self.__a__(), '-')
@@ -123,6 +124,7 @@ class App(tk.Frame):
         self.__mute_b__(self.__b__(), self.__b__(), '-')
         self.__mute_c__(self.__c__(), self.__c__(), '-')
         self.__mute_d__(self.__d__(), self.__d__(), '-')
+        root = self.main_root
         root.after_cancel(self.__job)
         self.__job = None
 
