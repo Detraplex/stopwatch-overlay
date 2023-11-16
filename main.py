@@ -62,9 +62,6 @@ class Main:
     def main(self):
         logger.info("Main Start     : Initalize")
         self.thread_function()
-
-    def send_times(self):
-        print("piss")
         
 if __name__ == "__main__":
     Main()
