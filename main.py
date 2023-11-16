@@ -23,19 +23,15 @@ class Main:
         self.main()
 
     def thread_function(self):
-        threads = list()
-        for index in range(2):
-            logger.info("Main      : Created and thread %d starting", index)
-            stich = threading.Thread(target=self.name[index], args=())
-            threads.append(stich)
-            stich.start()
-
-            time.sleep(.5)
-
-        for i, thread in enumerate(threads):
-            logger.info("Main      : before joining thread %d", i)
-            thread.join()
-            logger.info("Main      : Thread %d done", i)
+        logger.info("Main      : Created and thread %d starting", 0)
+        logger.info("Main      : Created and thread %d starting", 1)
+        logger.info("Main      : before joining thread %d", 0)
+        self.generate_main()
+        logger.info("Main      : before joining thread %d", 1)
+        self.generate_settings()
+        logger.info("Main      : Thread %d done", 0)
+        logger.info("Main      : Thread %d done", 1)
+        tk.mainloop()
 
     def generate_main(self):
         logger.info("Generate Main      : Initalize")
@@ -43,8 +39,8 @@ class Main:
         main_root.title("Clock Overlay")
         #main_root.geometry('300x300')
         self.my_app_m = clock.App(main_root, main_root)
-        main_root.mainloop()
         logger.info("Generate Main      : Done")
+        return True
 
     def generate_settings(self):
         logger.info("Generate Settings      : Initalize")
@@ -52,8 +48,8 @@ class Main:
         settings_root.title("Clock Settings")
         #settings_root.geometry('300x300')
         self.my_app_s = settings.App(settings_root)
-        settings_root.mainloop()
         logger.info("Generate settings      : Done")
+        return True
 
     def send_times(self, times: list):
         print("piss")

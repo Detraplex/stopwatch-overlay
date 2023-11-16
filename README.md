@@ -15,9 +15,9 @@ X; no work
 V; in progress  
 O; done  
 
-desktop app [X]
-more robust GUI [V]
-settings window [V]
+desktop app [X]  
+more robust GUI [V]  
+settings window [V]  
 
 # BUGS
 if youre having issues on linux use __sudo apt install python3-tk__
