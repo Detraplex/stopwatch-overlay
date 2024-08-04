@@ -7,5 +7,5 @@ __pycache__/
 #ignore venv dir
 stopwatch-overlay/
 #ignore test and demo files
-settings.py
-main.py
+/settings.py
+/main.py
