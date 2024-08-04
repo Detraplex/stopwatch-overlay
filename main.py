@@ -21,7 +21,7 @@ logger = log.getLogger("main")
 class Main:
     def __init__(self) -> None:
         """Setup and deploy for the whole clock application"""
-        self.name = [self.generate_main, self.generate_settings]
+        self.name = [self.generate_main]#, self.generate_settings]
         self.main()
 
     def thread_function(self):
