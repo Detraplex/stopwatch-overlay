@@ -8,3 +8,4 @@ __pycache__/
 stopwatch-overlay/
 #ignore test and demo files
 settings.py
+main.py
