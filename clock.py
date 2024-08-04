@@ -242,10 +242,10 @@ class App(tk.Frame):
                 self.__mute_b__(self.__b__(), 60, '-')
                 self.__mute_a__(self.__a__(), 1, '+')
             elif self.__a__() == 24:
-                self.__mute_a__(self.__a__(), self.__a__, '-')
-                self.__mute_b__(self.__b__(), self.__b__, '-')
-                self.__mute_c__(self.__c__(), self.__c__, '-')
-                self.__mute_s__(self.__d__(), self.__d__, '-')
+                self.__mute_a__(self.__a__(), self.__a__(), '-')
+                self.__mute_b__(self.__b__(), self.__b__(), '-')
+                self.__mute_c__(self.__c__(), self.__c__(), '-')
+                self.__mute_d__(self.__d__(), self.__d__(), '-')
             else:
                 self.__mute_d__(self.__d__(), 1, '+')
             self.timer_face.configure(text="{}:{}:{}:{}".format(self.a ,self.b, self.c, self.d))
