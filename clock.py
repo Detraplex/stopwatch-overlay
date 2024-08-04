@@ -6,6 +6,11 @@ labeled for free, individual use
 
 import tkinter as tk
 from playsound import playsound
+import logging as log
+
+log.basicConfig(level=log.NOTSET)
+handle = "clock"
+logger = log.getLogger("clock")
 
 
 class App(tk.Frame):
@@ -98,20 +103,13 @@ class App(tk.Frame):
         """subtracts a minute from the current time"""
         self.__mute_b__(self.__b__(), 1, '-')
         self.after(0, self.sub_countdown)
-    
-    def test_neg(self, hour_input: str, minute_input: str, second_input: str, milisecond_input: str) -> bool:
-        list_of_stuff = [hour_input, minute_input, second_input, milisecond_input]
-        for i in list_of_stuff:
-            for j in i:
-                if j == '-':
-                    return False
-                else:
-                    continue
-        return True
+
 
     def play(self):
         """plays ending sound for timer"""
+        logger.info("Playing sound:     START")
         playsound('./sound_files/alarm-clock-short-6402.mp3')
+        logger.info("Playing sound:     END")
 
     def starting(self, root):
         """starts the timer early"""
@@ -159,12 +157,7 @@ class App(tk.Frame):
                 self.__job = self.after(0, self.initalize)
                 self.play()
     
-    def test_exist(self, hour_input, minute_input, second_input, milisecond_input) -> bool:
-        if (hour_input == '') or (minute_input == '') or (second_input == '') or (milisecond_input == ''):
-            return False
-        else:
-            return True
-    
+ 
     def time_reformatter(self) -> str:
         """fix for the formatting bug, badly but it works (if statements will be fixed later)"""
         print("put time in now, either two didgets or one where a zero starts the number (ex: 01 for 1)")
@@ -172,20 +165,26 @@ class App(tk.Frame):
         minute_input = input('minute: ')
         second_input = input('second: ')
         milisecond_input = input('milisecond: ')
-        if (len(hour_input) > 2) or (len(minute_input) > 2) or (len(second_input) > 2) or (len(milisecond_input) > 4) or (self.test_exist(hour_input, minute_input, second_input, milisecond_input) != True):
+        
+        num_list = [hour_input, minute_input, second_input, milisecond_input] 
+
+        for i in num_list:#check for uninitalized variables
+            if i != '':
+                if i.isdigit() == True:  
+                    continue
             return None
-        elif self.test_neg(hour_input, minute_input, second_input, milisecond_input) == False:
+
+        if len(num_list.pop()) > 4: #must be at most 4 miliseconds
             return None
-        elif (hour_input[0].isdigit() == False) or (hour_input[1].isdigit() == False):
+
+        for i in num_list: # two diget int for hour, min and sec
+            if len(i) > 2:
+                return None
+            continue
+
+        if (hour_input[0] == '2') and (hour_input[1] not in ['0', '1', '2', '3', '4']):
             return None
-        elif (hour_input[0] == '2') and (hour_input[1] not in ['0', '1', '2', '3', '4']):
-            return None
-        elif (minute_input[0].isdigit() == False) or (minute_input[1].isdigit() == False):
-            return None
-        elif (second_input[0].isdigit() == False) or (second_input[1].isdigit() == False):
-            return None
-        elif (milisecond_input[0].isdigit() == False) or (milisecond_input[1] not in ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']):
-            return None
+
         else:   
             return hour_input,minute_input,second_input,milisecond_input
 
@@ -197,7 +196,7 @@ class App(tk.Frame):
             time_input = self.time_reformatter()
             if time_input == None:
                 self.__job = None
-                print('use an int please')
+                print('refer to instructions and try again')
             else:
                 pp = 0
                 for i in time_input:
@@ -226,6 +225,7 @@ class App(tk.Frame):
             self.__job = self.after(0, self.initalize)
     
     def close_window(self):
+        logger.info("Window:    CLOSED")
         self.master.destroy()
 
     def timer(self):
@@ -264,3 +264,10 @@ class App(tk.Frame):
         self.quit_button.grid(row = 2, column = 1)
         self.stopwatch_button.grid(row = 2, column = 0)
         self.countdown_button.grid(row = 2, column = 2)
+
+if __name__ == "__main__":
+    main_root = tk.Tk()
+    main_root.title("Clock Overlay")
+    main_root.geometry('400x100')
+    my_app = App(main_root)
+    main_root.mainloop()

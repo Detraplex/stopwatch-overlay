@@ -3,3 +3,4 @@ test_files/
 test_files_linux/
 .vscode/
 __pycache__/
+stopwatch-overlay/
