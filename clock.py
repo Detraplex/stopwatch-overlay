@@ -6,6 +6,11 @@ labeled for free, individual use
 
 import tkinter as tk
 from playsound import playsound
+import logging as log
+
+log.basicConfig(level=log.NOTSET)
+handle = "clock"
+logger = log.getLogger("clock")
 
 
 class App(tk.Frame):
@@ -111,7 +116,9 @@ class App(tk.Frame):
 
     def play(self):
         """plays ending sound for timer"""
+        logger.info("Playing sound:     START")
         playsound('./sound_files/alarm-clock-short-6402.mp3')
+        logger.info("Playing sound:     END")
 
     def starting(self, root):
         """starts the timer early"""
@@ -160,10 +167,12 @@ class App(tk.Frame):
                 self.play()
     
     def test_exist(self, hour_input, minute_input, second_input, milisecond_input) -> bool:
-        if (hour_input == '') or (minute_input == '') or (second_input == '') or (milisecond_input == ''):
-            return False
-        else:
-            return True
+        num_list = [hour_input, minute_input, second_input, milisecond_input]
+        for i in num_list:
+            if i != '':
+                return False
+            else:
+                return True
     
     def time_reformatter(self) -> str:
         """fix for the formatting bug, badly but it works (if statements will be fixed later)"""
@@ -226,6 +235,7 @@ class App(tk.Frame):
             self.__job = self.after(0, self.initalize)
     
     def close_window(self):
+        logger.info("Window:    CLOSED")
         self.master.destroy()
 
     def timer(self):
