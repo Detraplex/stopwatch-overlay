@@ -1,6 +1,10 @@
 # ignore all test c files
 test_files/
 test_files_linux/
+#ignore superflus git files
 .vscode/
 __pycache__/
+#ignore venv dir
 stopwatch-overlay/
+#ignore test and demo files
+testing/

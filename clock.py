@@ -50,45 +50,63 @@ class App(tk.Frame):
         """returns miliseconds"""
         return self.d
     
-    def __mute_a__(self, num: int, sub_plus: int, op) -> int:
-        """returns add/sub of hours:
+    def __mute_a_add__(self, num: int, add: int) -> int:
+        """returns addition of hours:
         num: self.a
-        sub_plus: "+", "-"
+        add: time to add
         """
-        if op == '-':
-            self.a = num - sub_plus
-        elif op == '+':
-            self.a = num + sub_plus
+        self.a = num + add
 
-    def __mute_b__(self, num: int, sub_plus: int, op) -> int:
-        """returns add/sub of minutes:
-        num: self.s
-        sub_plus: "+", "-"
+    def __mute_b_add__(self, num: int, add: int) -> int:
+        """returns addition of hours:
+        num: self.b
+        add: time to add
         """
-        if op == '-':
-            self.b = num - sub_plus
-        elif op == '+':
-            self.b = num + sub_plus
+        self.b = num + add
 
-    def __mute_c__(self, num: int, sub_plus: int, op) -> int:
-        """returns add/sub of seconds:
+    def __mute_c_add__(self, num: int, add: int) -> int:
+        """returns addition of hours:
         num: self.c
-        sub_plus: "+", "-"
+        add: time to add
         """
-        if op == '-':
-            self.c = num - sub_plus
-        elif op == '+':
-            self.c = num + sub_plus
+        self.c = num + add
 
-    def __mute_d__(self, num: int, sub_plus: int, op) -> int:
-        """returns add/sub of miliseconds:
+    def __mute_d_add__(self, num: int, add: int) -> int:
+        """returns addition of hours:
         num: self.d
-        sub_plus: "+", "-"
+        add: time to add
         """
-        if op == '-':
-            self.d = num - sub_plus
-        elif op == '+':
-            self.d = num + sub_plus
+        self.d = num + add
+
+    def __mute_a_sub__(self, num: int, sub: int) -> int:
+        """returns subtraction of hours:
+        num: self.a
+        sub: time to subtract
+        """
+        self.a = num - sub
+
+    def __mute_b_sub__(self, num: int, sub: int) -> int:
+        """returns subtraction of hours:
+        num: self.b
+        sub: time to subtract
+        """
+        self.b = num - sub
+
+    def __mute_c_sub__(self, num: int, sub: int) -> int:
+        """returns subtraction of hours:
+        num: self.c
+        sub: time to subtract
+        """
+        self.c = num - sub
+
+    def __mute_d_sub__(self, num: int, sub: int) -> int:
+        """returns subtraction of hours:
+        num: self.d
+        sub: time to subtract
+        """
+    
+        self.d = num - sub
+    
 
     def __list_vals__(self) -> dict:
         """returns the list of key, tkinter button pairs"""
@@ -96,12 +114,12 @@ class App(tk.Frame):
 
     def add_time(self):
         """adds a minute to the current time"""
-        self.__mute_b__(self.__b__(), 1, '+')
+        self.__mute_b_add__(self.__b__(), 1)
         self.after(0, self.sub_countdown)
         
     def sub_time(self):
         """subtracts a minute from the current time"""
-        self.__mute_b__(self.__b__(), 1, '-')
+        self.__mute_b_sub__(self.__b__(), 1)
         self.after(0, self.sub_countdown)
 
 
@@ -111,45 +129,41 @@ class App(tk.Frame):
         playsound('./sound_files/alarm-clock-short-6402.mp3')
         logger.info("Playing sound:     END")
 
-    def starting(self, root):
+    def starting(self):
         """starts the timer early"""
         self.timer_face.configure(text="Have I Started Yet?")
-        self.__mute_a__(self.__a__(), self.__a__(), '-')
-        self.__mute_b__(self.__b__(), self.__b__(), '-')
-        self.__mute_c__(self.__c__(), self.__c__(), '-')
-        self.__mute_d__(self.__d__(), self.__d__(), '-')
-        self.__mute_a__(self.__a__(), self.__a__(), '-')
-        self.__mute_b__(self.__b__(), self.__b__(), '-')
-        self.__mute_c__(self.__c__(), self.__c__(), '-')
-        self.__mute_d__(self.__d__(), self.__d__(), '-')
-        root.after_cancel(self.__job)
+        self.__mute_a_sub__(self.__a__(), self.__a__())
+        self.__mute_b_sub__(self.__b__(), self.__b__())
+        self.__mute_c_sub__(self.__c__(), self.__c__())
+        self.__mute_d_sub__(self.__d__(), self.__d__())
+        self.after_cancel(self.__job)
         self.__job = None
 
     def sub_countdown(self):
         """starts counting down from an inputed time"""
         if (self.__d__() <= 1000) & (self.__d__() != 00): #as long as mili doesn equal zero subtract one till it is
-            self.__mute_d__(self.__d__(), 1, '-')
+            self.__mute_d_sub__(self.__d__(), 1)
             self.timer_face.configure(text="{}:{}:{}:{}".format(self.__a__() ,self.__b__(), self.__c__(), self.__d__()))
             self.__job =self.after(1, self.sub_countdown)
         elif (self.c <= 60) & (self.c != 00): #if second doesnt equal zero and is less than or equal to 60 then subtract a sec and add 999 mili
-                self.__mute_c__(self.__c__(), 1, '-')
-                self.__mute_d__(self.__d__(), 999, '+')
+                self.__mute_c_sub__(self.__c__(), 1)
+                self.__mute_d_add__(self.__d__(), 999)
                 self.timer_face.configure(text="{}:{}:{}:{}".format(self.__a__() ,self.__b__(), self.__c__(), self.__d__()))
                 self.__job =self.after(1, self.sub_countdown)
         elif (self.__b__() <= 60) & (self.__b__() != 00): #if minute is not zero and less than or equal to 60 than subtract min,sec and add one 999 mili
-                self.__mute_b__(self.__b__(), 1, '-')
-                self.__mute_c__(self.__c__(), 60, '+')
-                self.__mute_c__(self.__c__(), 1, '-')
-                self.__mute_d__(self.__d__(), 999, '+')
+                self.__mute_b_sub__(self.__b__(), 1)
+                self.__mute_c_add__(self.__c__(), 60)
+                self.__mute_c_sub__(self.__c__(), 1)
+                self.__mute_d_add__(self.__d__(), 999)
                 self.timer_face.configure(text="{}:{}:{}:{}".format(self.__a__() ,self.__b__(), self.__c__(), self.__d__()))
                 self.__job =self.after(1, self.sub_countdown)
         elif (self.__a__() <= 24) & (self.__a__() != 00): #if the hour is smaller than 24 and doesn equal zero then subtract min, sec, hour by one and add 999 to mili
-                self.__mute_a__(self.__a__(), 1, '-')
-                self.__mute_b__(self.__b__(), 60, '+')
-                self.__mute_b__(self.__b__(), 1, '-')
-                self.__mute_c__(self.__c__(), 60, '+')
-                self.__mute_c__(self.__c__(), 1, '-')
-                self.__mute_d__(self.__d__(), 999, '+')
+                self.__mute_a_sub__(self.__a__(), 1)
+                self.__mute_b_add__(self.__b__(), 60)
+                self.__mute_b_sub__(self.__b__(), 1)
+                self.__mute_c_add__(self.__c__(), 60)
+                self.__mute_c_sub__(self.__c__(), 1)
+                self.__mute_d_add__(self.__d__(), 999)
                 self.timer_face.configure(text="{}:{}:{}:{}".format(self.__a__() ,self.__b__(), self.__c__(), self.__d__()))
                 self.__job = self.after(1, self.sub_countdown)
         else:
@@ -159,7 +173,7 @@ class App(tk.Frame):
     
  
     def time_reformatter(self) -> str:
-        """fix for the formatting bug, badly but it works (if statements will be fixed later)"""
+        """checks edge cases confirms assumptions"""
         print("put time in now, either two didgets or one where a zero starts the number (ex: 01 for 1)")
         hour_input = input('hour: ')
         minute_input = input('minute: ')
@@ -198,20 +212,20 @@ class App(tk.Frame):
                 self.__job = None
                 print('refer to instructions and try again')
             else:
-                pp = 0
+                count = 0
                 for i in time_input:
-                    if pp == 0:
-                        self.__mute_a__(int(i), 0 , '-')
-                        pp = pp + 1
-                    elif pp == 1:
-                        self.__mute_b__(int(i), 0, '-')
-                        pp = pp + 1
-                    elif pp == 2:
-                       self.__mute_c__(int(i), 0, '-')
-                       pp = pp + 1
-                    elif pp == 3:
-                       self.__mute_d__(int(i), 0 ,'-')
-                       pp = pp + 1
+                    if count == 0:
+                        self.__mute_a_sub__(int(i), 0)
+                        count += 1
+                    elif count == 1:
+                        self.__mute_b_sub__(int(i), 0)
+                        count += 1
+                    elif count == 2:
+                       self.__mute_c_sub__(int(i), 0)
+                       count += 1
+                    elif count == 3:
+                       self.__mute_d_sub__(int(i), 0)
+                       count += 1
                 self.t_f = False
                 self.timer_face.configure(text="{}:{}:{}:{}".format(self.__a__() ,self.__b__(), self.__c__(), self.__d__()))
                 self.__job = self.after(0, self.sub_countdown)
@@ -233,21 +247,21 @@ class App(tk.Frame):
         self.__job = None
         try:
             if self.__d__() == 1000:
-                self.__mute_d__(0000, 0, '-')
-                self.__mute_c__(self.__c__(), 1, '+')
+                self.__mute_d_sub__(0000, 0)
+                self.__mute_c_add__(self.__c__(), 1)
             elif self.__c__() == 60:
-                self.__mute_c__(self.__c__(), 60, '-')
-                self.__mute_b__(self.__b__(), 1, '+')
+                self.__mute_c_sub__(self.__c__(), 60)
+                self.__mute_b_add__(self.__b__(), 1)
             elif self.__b__() == 60:
-                self.__mute_b__(self.__b__(), 60, '-')
-                self.__mute_a__(self.__a__(), 1, '+')
+                self.__mute_b_sub__(self.__b__(), 60)
+                self.__mute_a_add__(self.__a__(), 1)
             elif self.__a__() == 24:
-                self.__mute_a__(self.__a__(), self.__a__, '-')
-                self.__mute_b__(self.__b__(), self.__b__, '-')
-                self.__mute_c__(self.__c__(), self.__c__, '-')
-                self.__mute_s__(self.__d__(), self.__d__, '-')
+                self.__mute_a_sub__(self.__a__(), self.__a__())
+                self.__mute_b_sub__(self.__b__(), self.__b__())
+                self.__mute_c_sub__(self.__c__(), self.__c__())
+                self.__mute_d_sub__(self.__d__(), self.__d__())
             else:
-                self.__mute_d__(self.__d__(), 1, '+')
+                self.__mute_d_add__(self.__d__(), 1)
             self.timer_face.configure(text="{}:{}:{}:{}".format(self.a ,self.b, self.c, self.d))
             self.__job = self.after(1, self.timer)
         except:
