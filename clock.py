@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 stopwatch and integrated timer
 Detraplex
@@ -5,7 +6,7 @@ labeled for free, individual use
 """
 
 import tkinter as tk
-from playsound import playsound
+import os
 import logging as log
 
 log.basicConfig(level=log.NOTSET)
@@ -126,7 +127,8 @@ class App(tk.Frame):
     def play(self):
         """plays ending sound for timer"""
         logger.info("Playing sound:     START")
-        playsound('./sound_files/alarm-clock-short-6402.mp3')
+        file = "./sound_files/alarm-clock-short-6402.mp3"
+        os.system("mpg123 " + file)
         logger.info("Playing sound:     END")
 
     def starting(self):
